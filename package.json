@@ -2,11 +2,9 @@
   "name": "hiremind-ai",
   "private": true,
   "version": "1.0.0",
-  "description": "HireMind AI — Full-stack recruitment platform. Frontend: React+Vite. Backend: Flask (deploy separately).",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build",
-    "dev": "cd frontend && npm run dev",
-    "lint": "cd frontend && npm run lint",
-    "test": "cd frontend && npm test"
+    "build": "npm run build --prefix frontend",
+    "dev": "npm run dev --prefix frontend",
+    "install-frontend": "npm install --prefix frontend"
   }
 }
