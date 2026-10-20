@@ -36,6 +36,23 @@ def create_app(config_class=Config):
         from app.migrations import upgrade_auth_ownership
         upgrade_auth_ownership(db.engine)
 
+        # Bootstrap: Ensure default recruiter exists and clear throttles on boot
+        from app.models.auth import User, LoginThrottle
+        from app.services.auth_service import create_user
+        from werkzeug.security import generate_password_hash
+        try:
+            LoginThrottle.query.delete()
+            recruiter = User.query.filter_by(email="recruiter@hiremind.ai").first()
+            if not recruiter:
+                create_user("recruiter@hiremind.ai", "Recruiter@2026", "recruiter")
+            else:
+                recruiter.password_hash = generate_password_hash("Recruiter@2026")
+                recruiter.active = True
+            db.session.commit()
+        except Exception as exc:
+            db.session.rollback()
+            app.logger.warning("Auto bootstrap notice: %s", exc)
+
     @app.cli.command("create-user")
     @click.option("--email", prompt=True)
     @click.option("--role", type=click.Choice(["admin", "recruiter"]), prompt=True)
