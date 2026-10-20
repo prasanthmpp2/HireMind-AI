@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lato:wght@400;700&family=Manrope:wght@400;500;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;700&family=Nunito:wght@400;600;700&family=Playfair+Display:wght@500;700&family=Poppins:wght@400;500;600;700&family=Roboto+Slab:wght@400;600&family=Source+Serif+4:wght@400;600&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    line-height: 1.45;
+    text-rendering: optimizeLegibility;
+    background: #f4f6f8;
+  }
+
+  .dark body {
+    background: #080d15;
+  }
+
+  ::selection {
+    background: rgba(30, 41, 59, 0.2);
+  }
+
+  .dark ::selection {
+    background: rgba(148, 163, 184, 0.28);
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    transition-property: color, background-color, border-color, box-shadow, transform;
+    transition-duration: 150ms;
+    transition-timing-function: ease;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-white/80 shadow-glow backdrop-blur dark:border-slate-700/60 dark:bg-slate-900/70;
+  }
+
+  .resume-font-inter {
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-poppins {
+    font-family: "Poppins", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-lato {
+    font-family: "Lato", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-manrope {
+    font-family: "Manrope", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-montserrat {
+    font-family: "Montserrat", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-nunito {
+    font-family: "Nunito", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-font-merriweather {
+    font-family: "Merriweather", Georgia, "Times New Roman", serif;
+  }
+
+  .resume-font-playfair {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  }
+
+  .resume-font-roboto-slab {
+    font-family: "Roboto Slab", Georgia, "Times New Roman", serif;
+  }
+
+  .resume-font-source-serif {
+    font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  }
+
+  .resume-font-space-grotesk {
+    font-family: "Space Grotesk", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .resume-size-xsmall .text-2xl {
+    font-size: 1.25rem;
+  }
+
+  .resume-size-xsmall .text-sm {
+    font-size: 0.75rem;
+  }
+
+  .resume-size-xsmall .text-xs {
+    font-size: 0.64rem;
+  }
+
+  .resume-size-small .text-2xl {
+    font-size: 1.35rem;
+  }
+
+  .resume-size-small .text-sm {
+    font-size: 0.8rem;
+  }
+
+  .resume-size-small .text-xs {
+    font-size: 0.68rem;
+  }
+
+  .resume-size-default .text-2xl {
+    font-size: 1.5rem;
+  }
+
+  .resume-size-default .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .resume-size-default .text-xs {
+    font-size: 0.75rem;
+  }
+
+  .resume-size-large .text-2xl {
+    font-size: 1.65rem;
+  }
+
+  .resume-size-large .text-sm {
+    font-size: 0.98rem;
+  }
+
+  .resume-size-large .text-xs {
+    font-size: 0.84rem;
+  }
+
+  .resume-size-xlarge .text-2xl {
+    font-size: 1.8rem;
+  }
+
+  .resume-size-xlarge .text-sm {
+    font-size: 1.08rem;
+  }
+
+  .resume-size-xlarge .text-xs {
+    font-size: 0.92rem;
+  }
+}

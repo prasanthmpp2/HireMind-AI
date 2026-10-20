@@ -1,0 +1,41 @@
+# Secrets and environment files
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencies and build output
+node_modules/
+**/node_modules/
+.venv/
+**/.venv/
+venv/
+**/venv/
+dist/
+**/dist/
+coverage/
+**/__pycache__/
+**/.pytest_cache/
+frontend/playwright-report/
+frontend/test-results/
+backend/chroma_e2e/
+backend/uploads_e2e/
+backend/hiremind-e2e.db
+backend/hiremind-e2e.db-shm
+backend/hiremind-e2e.db-wal
+
+# Runtime data and personal documents
+*.db
+*.sqlite
+*.sqlite3
+backend/chroma_db/
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/instance/
+storage/
+
+# Original source repositories remain intact beside the integration copy
+Interactive_Resume_Builder/
+Ai_HR_Recruiter/
