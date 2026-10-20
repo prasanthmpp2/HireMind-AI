@@ -166,6 +166,47 @@ def setup_first_recruiter():
     return jsonify({"status": "created", "email": user.email, "role": user.role}), 201
 
 
+@api_v1_bp.post("/setup/reset-staff")
+def setup_reset_staff():
+    """
+    Emergency staff account reset.
+    Deletes ALL recruiter/admin accounts so setup/first-recruiter can be used again.
+    ONLY works when SETUP_TOKEN env variable is set on the server AND
+    the caller sends the matching token in the request body.
+    Remove SETUP_TOKEN from env vars after use.
+    """
+    from app.models.auth import User, AuthSession
+
+    server_token = os.environ.get("SETUP_TOKEN", "").strip()
+    if not server_token:
+        return jsonify({
+            "error": {
+                "code": "not_available",
+                "message": "Reset is not enabled. Set SETUP_TOKEN environment variable on your server first."
+            }
+        }), 403
+
+    body = request.get_json(silent=True) or {}
+    provided_token = str(body.get("token", "")).strip()
+
+    import hmac
+    if not provided_token or not hmac.compare_digest(server_token, provided_token):
+        return jsonify({"error": {"code": "forbidden", "message": "Invalid reset token."}}), 403
+
+    # Delete all sessions and staff users
+    staff_users = User.query.filter(User.role.in_(["recruiter", "admin"])).all()
+    for u in staff_users:
+        AuthSession.query.filter_by(user_id=u.id).delete()
+        db.session.delete(u)
+    db.session.commit()
+
+    return jsonify({
+        "status": "reset",
+        "deleted_accounts": len(staff_users),
+        "next": "Now call POST /api/v1/setup/first-recruiter to create a new recruiter account."
+    }), 200
+
+
 @api_v1_bp.post("/ai/generate")
 def generate_ai_text():
     payload, failure = validate(AiGenerateInput, request.get_json(silent=True) or {})
