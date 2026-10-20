@@ -1,0 +1,8 @@
+# Exclude backend from Vercel — only the React frontend is deployed here.
+# The Flask backend should be deployed separately (e.g., Render, Railway, Fly.io).
+backend/
+*.py
+*.db
+*.sqlite
+chroma_db/
+uploads/
