@@ -28,6 +28,9 @@ chroma_db/
 uploads/*
 !uploads/.gitkeep
 
+!dist/
+!dist/**
+
 # Testing & coverage caches
 .pytest_cache/
 .coverage

@@ -82,6 +82,8 @@ def create_app(config_class=Config):
     @app.before_request
     def enforce_authentication_and_csrf():
         path = request.path
+        if not path.startswith("/api/") and not path.startswith("/api"):
+            return None
         if path == "/api/v1/health" or path.startswith("/api/v1/auth/") or request.endpoint == "static":
             return None
         from app.services.auth_service import authenticated_user, csrf_valid, fail
