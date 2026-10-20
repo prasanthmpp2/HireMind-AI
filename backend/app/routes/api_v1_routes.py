@@ -129,6 +129,43 @@ def health():
     return jsonify({"status": "ok"}), 200
 
 
+@api_v1_bp.post("/setup/first-recruiter")
+def setup_first_recruiter():
+    """
+    One-time bootstrap endpoint.
+    Creates the FIRST recruiter account only if NO recruiter or admin exists yet.
+    Permanently disabled once any staff account is present in the database.
+    """
+    from app.models.auth import User
+    from app.services.auth_service import create_user
+
+    # Hard-lock: refuse if any staff account already exists
+    existing_staff = User.query.filter(User.role.in_(["recruiter", "admin"])).first()
+    if existing_staff:
+        return jsonify({
+            "error": {
+                "code": "already_configured",
+                "message": "This setup endpoint is permanently disabled because staff accounts already exist."
+            }
+        }), 409
+
+    body = request.get_json(silent=True) or {}
+    email = str(body.get("email", "")).strip().lower()
+    password = str(body.get("password", ""))
+
+    if not email or "@" not in email:
+        return jsonify({"error": {"code": "validation_error", "message": "A valid email address is required."}}), 400
+    if len(password) < 12 or len(password) > 256:
+        return jsonify({"error": {"code": "validation_error", "message": "Password must be between 12 and 256 characters."}}), 400
+
+    if User.query.filter_by(email=email).first():
+        return jsonify({"error": {"code": "already_configured", "message": "An account with this email already exists."}}), 409
+
+    user = create_user(email, password, "recruiter")
+    db.session.commit()
+    return jsonify({"status": "created", "email": user.email, "role": user.role}), 201
+
+
 @api_v1_bp.post("/ai/generate")
 def generate_ai_text():
     payload, failure = validate(AiGenerateInput, request.get_json(silent=True) or {})
