@@ -4,6 +4,8 @@ from app.models.job import JobDescription
 from app.models.candidate import Candidate, ResumeData
 from app.models.match import MatchResult
 from app.models.interview import InterviewKit
+from app.models.auth import User
+from app.services.auth_service import create_user
 from app.services.vector_service import VectorService
 from app.graphs.matching_graph import build_matching_graph
 from app.graphs.interview_graph import build_interview_graph
@@ -20,6 +22,13 @@ def seed():
         Candidate.query.delete()
         JobDescription.query.delete()
         db.session.commit()
+
+        # Seed Default Recruiter
+        recruiter = User.query.filter_by(email="recruiter@hiremind.ai").first()
+        if not recruiter:
+            create_user("recruiter@hiremind.ai", "Recruiter@2026", "recruiter")
+            db.session.commit()
+            print("   • Seeded default recruiter: recruiter@hiremind.ai / Recruiter@2026")
 
         # 1. Seed Jobs
         jd_python = JobDescription(
