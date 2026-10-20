@@ -134,66 +134,27 @@ cd HireMind-AI
 
 ---
 
-## 🌐 Online Hosting (Cloud Production Deployment)
+## 🌐 All-in-One Free Cloud Hosting (Recommended)
 
-You can host HireMind AI online for free or low cost using standard cloud platforms:
+You can host **both Frontend and Backend together in ONE place** on [Render.com](https://render.com) for 100% free!
 
-| Component | Recommended Hosts | Free Tier Available? |
-|---|---|---|
-| **Frontend** | [Vercel](https://vercel.com) / [Netlify](https://netlify.com) / [Render Static](https://render.com) | ✅ Yes (Unlimited / Generous) |
-| **Backend** | [Render](https://render.com) (Web Service) / [Railway](https://railway.app) / [Fly.io](https://fly.io) | ✅ Yes |
-| **Database** | Managed PostgreSQL (Render / Supabase / Neon) or persistent disk SQLite | ✅ Yes |
+### Why All-in-One Hosting is Best:
+- **0 CORS Errors:** Both React UI and Python API run on the exact same domain.
+- **0 Cookie Issues:** Secure HttpOnly session cookies are accepted by 100% of browsers (no cross-site cookie blocking).
+- **Single Free Service:** No need to configure Vercel or manage two separate cloud services.
 
----
-
-### Option A: Deploying Backend to Render / Railway
-
-1. **Connect GitHub**:
-   - Create an account on [Render.com](https://render.com) or [Railway.app](https://railway.app).
-   - Select **New Web Service** and connect your repository: `https://github.com/prasanthmpp2/HireMind-AI`.
-
-2. **Configure Service Settings**:
-   - **Root Directory**: `backend`
-   - **Environment / Runtime**: `Python 3`
-   - **Build Command**:
-     ```bash
-     pip install -r requirements.txt
-     ```
-   - **Start Command**:
-     ```bash
-     gunicorn -w 2 -b 0.0.0.0:$PORT run:app
-     ```
-
-3. **Set Environment Variables on Cloud Dashboard**:
+### Simple Render Setup:
+1. Connect your repository `https://github.com/prasanthmpp2/HireMind-AI` to Render as a **Web Service**.
+2. **Root Directory**: `backend`
+3. **Build Command**: `pip install -r requirements.txt`
+4. **Start Command**: `gunicorn -w 2 -b 0.0.0.0:$PORT run:app`
+5. **Environment Variables**:
    - `FLASK_ENV`: `production`
-   - `FLASK_SECRET_KEY`: `<Generate a random 32+ character secure string>`
-   - `FRONTEND_ORIGINS`: `https://your-frontend.vercel.app` (Your actual frontend domain)
-   - `AUTH_COOKIE_SECURE`: `true`
+   - `FLASK_SECRET_KEY`: `<Any 32-character secure secret>`
    - `AI_PROVIDER`: `groq` (or `huggingface`)
-   - `GROQ_API_KEY`: `your-groq-api-key`
-   - *(Optional for PostgreSQL)*: `DATABASE_URL`: `postgresql://user:pass@host/dbname`
-
-4. Copy your backend service URL (e.g., `https://hiremind-backend.onrender.com`).
-
----
-
-### Option B: Deploying Frontend to Vercel / Netlify
-
-1. **Import Project**:
-   - Go to [Vercel.com](https://vercel.com), click **Add New Project** and select `HireMind-AI`.
-
-2. **Configure Settings**:
-   - **Framework Preset**: `Vite`
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-
-3. **Set Environment Variables in Vercel**:
-   - `VITE_API_BASE_URL`: `https://hiremind-backend.onrender.com/api/v1`
-     *(Point this to your deployed backend URL + `/api/v1`)*
-
-4. **Deploy**:
-   - Click **Deploy**. Your React frontend will be live at `https://hiremind-ai.vercel.app`.
+   - `GROQ_API_KEY`: `<Your Groq Key>`
+6. **Deploy**:
+   Open your Render URL (e.g. `https://hiremind-backend-5qg0.onrender.com/`). The complete React UI, Candidate Portal, Recruiter Studio, and APIs are live immediately!
 
 ---
 
