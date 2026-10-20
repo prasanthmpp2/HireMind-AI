@@ -45,7 +45,8 @@ def register_candidate():
         token, csrf, user = login_user(email, password)
         response = jsonify({"user": _public_user(user), "csrf_token": csrf})
         set_session_cookie(response, token)
-        response.set_cookie(current_app.config["AUTH_CSRF_COOKIE_NAME"], csrf, max_age=current_app.config["AUTH_SESSION_TTL_SECONDS"], httponly=True, secure=current_app.config["AUTH_COOKIE_SECURE"], samesite="Strict", path="/")
+        secure = current_app.config["AUTH_COOKIE_SECURE"]
+        response.set_cookie(current_app.config["AUTH_CSRF_COOKIE_NAME"], csrf, max_age=current_app.config["AUTH_SESSION_TTL_SECONDS"], httponly=True, secure=secure, samesite="None" if secure else "Strict", path="/")
         return response, 201
     except Exception:
         db.session.rollback()
@@ -74,7 +75,8 @@ def login():
         return fail("invalid_credentials", "Email or password is incorrect.", 401)
     response = jsonify({"user": _public_user(outcome), "csrf_token": csrf})
     set_session_cookie(response, token)
-    response.set_cookie(current_app.config["AUTH_CSRF_COOKIE_NAME"], csrf, max_age=current_app.config["AUTH_SESSION_TTL_SECONDS"], httponly=True, secure=current_app.config["AUTH_COOKIE_SECURE"], samesite="Strict", path="/")
+    secure = current_app.config["AUTH_COOKIE_SECURE"]
+    response.set_cookie(current_app.config["AUTH_CSRF_COOKIE_NAME"], csrf, max_age=current_app.config["AUTH_SESSION_TTL_SECONDS"], httponly=True, secure=secure, samesite="None" if secure else "Strict", path="/")
     return response, 200
 
 

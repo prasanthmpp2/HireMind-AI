@@ -49,9 +49,14 @@ class Config:
     ALLOWED_EXTENSIONS = {"pdf", "docx"}
     MAX_UPLOAD_FILE_SIZE = int(os.getenv("MAX_UPLOAD_FILE_SIZE", 10 * 1024 * 1024))
     MAX_UPLOAD_FILES = int(os.getenv("MAX_UPLOAD_FILES", 20))
-    FRONTEND_ORIGINS = [
+    _raw_origins = [
         origin.strip()
         for origin in os.getenv("FRONTEND_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",")
         if origin.strip()
     ]
+    # Automatically allow Vercel and Render preview and production domains
+    for _pattern in (r"https://.*\.vercel\.app", r"https://.*\.onrender\.com"):
+        if _pattern not in _raw_origins:
+            _raw_origins.append(_pattern)
+    FRONTEND_ORIGINS = _raw_origins
 

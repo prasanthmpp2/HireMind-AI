@@ -111,12 +111,13 @@ def login_user(email: str, password: str):
 
 
 def set_session_cookie(response, token):
+    secure = current_app.config["AUTH_COOKIE_SECURE"]
     response.set_cookie(
         current_app.config["AUTH_COOKIE_NAME"], token,
         max_age=current_app.config["AUTH_SESSION_TTL_SECONDS"],
         httponly=True,
-        secure=current_app.config["AUTH_COOKIE_SECURE"],
-        samesite="Lax",
+        secure=secure,
+        samesite="None" if secure else "Lax",
         path="/",
     )
     response.headers["Cache-Control"] = "no-store"
